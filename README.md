@@ -3,6 +3,8 @@
 Dieses Repository enthält ein kleines, in TypeScript geschriebenes Grundgerüst für ein Manufacturing Execution System (MES). Aufgrund eingeschränkter Umgebung wurden keine externen Pakete verwendet. Das Projekt demonstriert:
 
 - Generierung eindeutiger Auftragsnummern (`ORD-YYYY-####`).
+ codex/create-manufacturing-order-management-system-v1wodo
+ main
 - Verwaltung einfacher Kunden- und Auftragsdaten im Speicher.
 - HTTP-API mit folgenden Endpunkten:
   - `GET /api/customers`, `POST /api/customers` – Kunden anlegen und auflisten.
@@ -11,9 +13,11 @@ Dieses Repository enthält ein kleines, in TypeScript geschriebenes Grundgerüst
   - `GET /api/orders/:id` – Auftragsdetails.
   - `PATCH /api/orders/:id` – Statusänderung mit Audit-Log.
   - `GET /api/orders/:id/logs` – protokollierte Statuswechsel.
+ codex/create-manufacturing-order-management-system-v1wodo
 - Einfaches Zeichentool unter `/draw` mit Freihandlinien und Speichern via `POST /api/drawings`.
 - Typdefinitionen für zentrale Domänenobjekte.
 - Unit-Tests für Auftragsnummern-Generator und API-Grundfunktionen.
+ main
 
 ## Nutzung
 

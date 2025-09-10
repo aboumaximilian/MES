@@ -1,5 +1,6 @@
 declare var module: any;
 declare var require: any;
+ codex/create-manufacturing-order-management-system-v1wodo
 declare var process: any;
 const http = require('http');
 const { parse } = require('url');
@@ -19,6 +20,7 @@ import {
   OrderPriority,
   Drawing,
 } from './models';
+ main
 
 interface AuditEntry {
   orderId: string;
@@ -31,9 +33,11 @@ const orders: Order[] = [];
 const customers: Customer[] = [];
 const logs: AuditEntry[] = [];
 let customerSeq = 1;
+ codex/create-manufacturing-order-management-system-v1wodo
 const drawings: Drawing[] = [];
 let drawingSeq = 1;
 const drawPage = fs.readFileSync(path.join(process.cwd(), 'public', 'draw.html'), 'utf8');
+ main
 
 function readBody(req: any): Promise<string> {
   return new Promise((resolve) => {
@@ -46,6 +50,7 @@ function readBody(req: any): Promise<string> {
 const server = http.createServer(async (req: any, res: any) => {
   const { pathname, query } = parse(req.url || '', true);
 
+ codex/create-manufacturing-order-management-system-v1wodo
   if (pathname === '/draw' && req.method === 'GET') {
     res.setHeader('Content-Type', 'text/html');
     res.end(drawPage);
@@ -89,6 +94,7 @@ const server = http.createServer(async (req: any, res: any) => {
     return;
   }
 
+ main
   if (pathname === '/api/customers' && req.method === 'GET') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(customers));
@@ -215,6 +221,8 @@ const server = http.createServer(async (req: any, res: any) => {
 
   res.statusCode = 404;
   res.end();
+ codex/create-manufacturing-order-management-system-v1wodo
+ main
 });
 
 if (require.main === module) {
