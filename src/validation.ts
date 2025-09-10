@@ -1,13 +1,16 @@
+ codex/create-manufacturing-order-management-system-rwggra
 import { OrderStatus } from './models';
 
 export interface OrderInput {
   customerId: string;
   prioritaet?: string;
+ main
 }
 
 export function validateOrderInput(input: any): input is OrderInput {
   return typeof input?.customerId === 'string' && input.customerId.length > 0;
 }
+ codex/create-manufacturing-order-management-system-rwggra
 
 export interface CustomerInput {
   name: string;
@@ -46,3 +49,4 @@ export function validateOrderUpdate(input: any): input is OrderUpdateInput {
     (validStatuses as string[]).includes(input.status)
   );
 }
+ main

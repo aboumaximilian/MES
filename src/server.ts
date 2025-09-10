@@ -1,6 +1,7 @@
 declare var module: any;
 declare var require: any;
 const http = require('http');
+ codex/create-manufacturing-order-management-system-rwggra
 const { parse } = require('url');
 import { generateOrderNumber } from './orderNumber';
 import { validateOrderInput, validateCustomerInput, validateOrderUpdate } from './validation';
@@ -155,6 +156,7 @@ const server = http.createServer(async (req: any, res: any) => {
 
   res.statusCode = 404;
   res.end();
+ main
 });
 
 if (require.main === module) {
