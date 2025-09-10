@@ -51,3 +51,10 @@ export interface OrderItem {
   menge: number;
   einheit: string;
 }
+ codex/create-manufacturing-order-management-system-v1wodo
+
+export interface Drawing {
+  id: string;
+  lines: { points: number[] }[];
+}
+ main

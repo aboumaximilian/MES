@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/server.js",
- codex/create-manufacturing-order-management-system-rwggra
+ codex/create-manufacturing-order-management-system-v1wodo
+ main
     "test": "npm run build && node dist/tests/orderNumber.test.js && node dist/tests/server.test.js"
   }
 }

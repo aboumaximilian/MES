@@ -1,11 +1,26 @@
 declare var module: any;
 declare var require: any;
+ codex/create-manufacturing-order-management-system-v1wodo
+declare var process: any;
 const http = require('http');
- codex/create-manufacturing-order-management-system-rwggra
 const { parse } = require('url');
+const fs = require('fs');
+const path = require('path');
 import { generateOrderNumber } from './orderNumber';
-import { validateOrderInput, validateCustomerInput, validateOrderUpdate } from './validation';
-import { Order, Customer, OrderStatus, OrderPriority } from './models';
+import {
+  validateOrderInput,
+  validateCustomerInput,
+  validateOrderUpdate,
+  validateDrawingInput,
+} from './validation';
+import {
+  Order,
+  Customer,
+  OrderStatus,
+  OrderPriority,
+  Drawing,
+} from './models';
+ main
 
 interface AuditEntry {
   orderId: string;
@@ -18,6 +33,11 @@ const orders: Order[] = [];
 const customers: Customer[] = [];
 const logs: AuditEntry[] = [];
 let customerSeq = 1;
+ codex/create-manufacturing-order-management-system-v1wodo
+const drawings: Drawing[] = [];
+let drawingSeq = 1;
+const drawPage = fs.readFileSync(path.join(process.cwd(), 'public', 'draw.html'), 'utf8');
+ main
 
 function readBody(req: any): Promise<string> {
   return new Promise((resolve) => {
@@ -30,6 +50,51 @@ function readBody(req: any): Promise<string> {
 const server = http.createServer(async (req: any, res: any) => {
   const { pathname, query } = parse(req.url || '', true);
 
+ codex/create-manufacturing-order-management-system-v1wodo
+  if (pathname === '/draw' && req.method === 'GET') {
+    res.setHeader('Content-Type', 'text/html');
+    res.end(drawPage);
+    return;
+  }
+
+  if (pathname === '/api/drawings' && req.method === 'POST') {
+    const body = await readBody(req);
+    try {
+      const data = JSON.parse(body || '{}');
+      if (!validateDrawingInput(data)) {
+        res.statusCode = 400;
+        res.end(
+          JSON.stringify({ error: { code: 'VALIDATION_ERROR', message: 'invalid drawing' } })
+        );
+        return;
+      }
+      const drawing: Drawing = { id: `DRAW-${drawingSeq++}`, lines: data.lines };
+      drawings.push(drawing);
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(drawing));
+    } catch {
+      res.statusCode = 400;
+      res.end(
+        JSON.stringify({ error: { code: 'INVALID_JSON', message: 'Request body must be JSON' } })
+      );
+    }
+    return;
+  }
+
+  const drawingMatch = pathname && pathname.match(/^\/api\/drawings\/([^\/]+)$/);
+  if (drawingMatch && req.method === 'GET') {
+    const drawing = drawings.find((d) => d.id === drawingMatch[1]);
+    if (!drawing) {
+      res.statusCode = 404;
+      res.end();
+      return;
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(drawing));
+    return;
+  }
+
+ main
   if (pathname === '/api/customers' && req.method === 'GET') {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(customers));
@@ -156,6 +221,7 @@ const server = http.createServer(async (req: any, res: any) => {
 
   res.statusCode = 404;
   res.end();
+ codex/create-manufacturing-order-management-system-v1wodo
  main
 });
 

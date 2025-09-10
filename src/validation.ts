@@ -1,16 +1,19 @@
- codex/create-manufacturing-order-management-system-rwggra
+ codex/create-manufacturing-order-management-system-v1wodo
+ main
 import { OrderStatus } from './models';
 
 export interface OrderInput {
   customerId: string;
   prioritaet?: string;
+ codex/create-manufacturing-order-management-system-v1wodo
  main
 }
 
 export function validateOrderInput(input: any): input is OrderInput {
   return typeof input?.customerId === 'string' && input.customerId.length > 0;
 }
- codex/create-manufacturing-order-management-system-rwggra
+ codex/create-manufacturing-order-management-system-v1wodo
+ main
 
 export interface CustomerInput {
   name: string;
@@ -47,6 +50,18 @@ export function validateOrderUpdate(input: any): input is OrderUpdateInput {
   return (
     typeof input.status === 'string' &&
     (validStatuses as string[]).includes(input.status)
+  );
+}
+ codex/create-manufacturing-order-management-system-v1wodo
+
+export interface DrawingInput {
+  lines: { points: number[] }[];
+}
+
+export function validateDrawingInput(input: any): input is DrawingInput {
+  if (!Array.isArray(input?.lines)) return false;
+  return input.lines.every(
+    (l: any) => Array.isArray(l?.points) && l.points.every((n: any) => typeof n === 'number')
   );
 }
  main

@@ -31,6 +31,21 @@ function request(port: number, method: string, path: string, data?: any): Promis
   });
 }
 
+ codex/create-manufacturing-order-management-system-v1wodo
+function requestText(port: number, path: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const options = { port, method: 'GET', path };
+    const req = http.request(options, (res: any) => {
+      let body = '';
+      res.on('data', (chunk: any) => (body += chunk));
+      res.on('end', () => resolve(body));
+    });
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+ main
 async function run() {
   const srv = server.listen(0);
   await new Promise((r) => srv.once('listening', r));
@@ -57,6 +72,19 @@ async function run() {
   const filtered = await request(port, 'GET', '/api/orders?status=In_Arbeit');
   assert.strictEqual(filtered.length, 1);
 
+ codex/create-manufacturing-order-management-system-v1wodo
+  const drawing = await request(port, 'POST', '/api/drawings', {
+    lines: [{ points: [0, 0, 10, 10] }],
+  });
+  assert.ok(drawing.id);
+
+  const fetched = await request(port, 'GET', `/api/drawings/${drawing.id}`);
+  assert.strictEqual(fetched.lines.length, 1);
+
+  const page = await requestText(port, '/draw');
+  assert.ok(page.includes('<canvas'));
+
+ main
   srv.close();
   console.log('server tests passed');
 }
