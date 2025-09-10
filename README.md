@@ -3,11 +3,18 @@
 Dieses Repository enthält ein kleines, in TypeScript geschriebenes Grundgerüst für ein Manufacturing Execution System (MES). Aufgrund eingeschränkter Umgebung wurden keine externen Pakete verwendet. Das Projekt demonstriert:
 
 - Generierung eindeutiger Auftragsnummern (`ORD-YYYY-####`).
-- Ein einfacher HTTP-Server mit zwei Endpunkten:
-  - `GET /api/orders` – listet alle Aufträge im Speicher.
-  - `POST /api/orders` – legt einen neuen Auftrag an (erfordert `customerId`).
+ codex/create-manufacturing-order-management-system-rwggra
+- Verwaltung einfacher Kunden- und Auftragsdaten im Speicher.
+- HTTP-API mit folgenden Endpunkten:
+  - `GET /api/customers`, `POST /api/customers` – Kunden anlegen und auflisten.
+  - `GET /api/orders` – Aufträge auflisten (Filter: `status`, `customerId`).
+  - `POST /api/orders` – neuen Auftrag anlegen (erfordert `customerId`).
+  - `GET /api/orders/:id` – Auftragsdetails.
+  - `PATCH /api/orders/:id` – Statusänderung mit Audit-Log.
+  - `GET /api/orders/:id/logs` – protokollierte Statuswechsel.
 - Typdefinitionen für zentrale Domänenobjekte.
-- Unit-Test für den Auftragsnummern-Generator.
+- Unit-Tests für Auftragsnummern-Generator und API-Grundfunktionen.
+ main
 
 ## Nutzung
 
