@@ -1,0 +1,9 @@
+{
+  "name": "mes-skeleton",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/server.js",
+    "test": "npm run build && node dist/tests/orderNumber.test.js && node dist/tests/server.test.js"
+  }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zeichentool</title>
+  <style>
+    canvas { border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <button id="save">Speichern</button>
+  <canvas id="board" width="600" height="400"></canvas>
+  <script>
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    const lines = [];
+    let current = null;
+
+    canvas.addEventListener('mousedown', e => {
+      drawing = true;
+      current = { points: [e.offsetX, e.offsetY] };
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      if (!drawing) return;
+      const x = e.offsetX, y = e.offsetY;
+      const pts = current.points;
+      pts.push(x, y);
+      ctx.beginPath();
+      ctx.moveTo(pts[pts.length - 4], pts[pts.length - 3]);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      lines.push(current);
+    });
+
+    document.getElementById('save').onclick = () => {
+      fetch('/api/drawings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lines })
+      })
+        .then(r => r.json())
+        .then(d => alert('Gespeichert mit ID ' + d.id))
+        .catch(() => alert('Speichern fehlgeschlagen'));
+    };
+  </script>
+</body>
+</html>
